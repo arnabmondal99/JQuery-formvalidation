@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="card-body">
+          <form name="add">
+            <div class="form-group">
+              <label for="email">Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Enter name"
+                name="name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                placeholder="Enter email"
+                name="email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="pwd"
+                placeholder="Enter password"
+                name="pwd"
+              />
+            </div>
+            <div class="form-group">
+              <label for="pwd">Image:</label>
+              <input type="file" class="form-control" id="image" name="image" />
+            </div>
+            <div class="form-group">
+              <label for="pwd">Address:</label>
+              <textarea
+                class="form-control"
+                id="address"
+                name="address"
+              ></textarea>
+            </div>
+            <ul class="js-errors"></ul>
+            <form action="#" id="form" method="post">
+                  <h3>Checkbox Group</h3>
+
+
+                  <ul>	
+                     <b> <span style="color:Tomato;" class="checkerror"></span></b>
+
+            <li>
+              <input type="checkbox" name="checkbox[]" value="Mike">
+              <label for="checkbox1">Mike</lable>
+            </li>
+            <li>
+              <input type="checkbox" name="checkbox[]" value="November">
+              <label for="checkbox2">November</lable>
+            </li>
+            <li>
+              <input type="checkbox" name="checkbox[]" value="Oscar">
+              <label for="checkbox3">Oscar</lable>
+            </li>
+            <li>
+              <input type="checkbox" name="checkbox[]" value="Papa">
+              <label for="checkbox4">Papa</lable>
+            </li>
+            <li>
+              <input type="checkbox" name="checkbox[]" value="Quebec">
+              <label for="checkbox5">Quebec</lable>
+            </li>
+            <li>
+              <input type="checkbox" name="checkbox[]" value="Romeo">
+              <label for="checkbox6">Romeo</lable>
+            </li>
+          </ul>
+                  <h3>Radio Group</h3>
+                  <ul>
+                    <b> <span style="color:Tomato;" class="radioerror"></span></b>
+              <li>
+                      <input type="radio" name="radio" id="radio1">
+                      <label for="radio1">Uniform</label>
+                  </li>
+              <li>
+                      <input type="radio" name="radio" id="radio2">
+                      <label for="radio2">Victor</label>
+                  </li>
+              <li>
+                      <input type="radio" name="radio" id="radio3">
+                      <label for="radio3">Whiskey</label>
+                  </li>
+              <li>
+                      <input type="radio" name="radio" id="radio4">
+                      <label for="radio4">Xray</label>
+                  </li>
+              <li>
+                      <input type="radio" name="radio" id="radio5">
+                      <label for="radio5">Yankee</label>
+                  </li>
+              <li>
+                      <input type="radio" name="radio" id="radio6">
+                      <label for="radio6">Zulu</label>
+                  </li>
+          </ul>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+    <script>
+      $(function () {
+        // Initialize form validation on the registration form.
+        // It has the name attribute "registration"
+        $.validator.addMethod(
+          "nonNumeric",
+          function (value, element) {
+            //   alert(value);
+            var re = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
+            if (re.test(value))
+             return true;
+            else 
+                return false;
+            // return this.optional(element) || !isNaN(Number(value));
+          },
+          "Only alphabatic characters allowed."
+        );
+
+        $.validator.addMethod("customvalidation",function(value,element){
+         // alert(value);
+          if(value!=null){
+            return true;
+          }
+          else{
+            $(".checkerror").html("please select at least one  below option");
+            return false;
+          }
+        })
+
+
+        $.validator.addMethod("radiovalidation",function(value,element){
+         // alert(value);
+          if(value!=null){
+            return true;
+          }
+          else{
+            $(".radioerror").html("please select at least one item ");
+            return false;
+          }
+        })
+
+         //password validation
+         /*
+        1. Length between 8 and 32 characters.
+
+        2.One or more uppercase letters.
+
+        3.One or more lowercase letters.
+
+        4.One or more numbers.
+
+        5.One or more special characters (ASCII punctuation or space characters).*/
+
+         $.validator.addMethod("passwordval",function(value,element){
+          var minMaxLength = /^[\s\S]{8,32}$/,
+            upper = /[A-Z]/,
+        lower = /[a-z]/,
+        number = /[0-9]/,
+        special = /[ !"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/;
+        var password = value;
+
+    if (minMaxLength.test(password) &&
+        upper.test(password) &&
+        lower.test(password) &&
+        number.test(password) &&
+        special.test(password)
+    ) {
+        return true;
+    }
+    else{
+    
+    return false;
+ }
+         });
+
+
+
+
+
+
+
+        $("form[name='add']").validate({
+          // Specify validation rules
+          rules: {
+            // The key name on the left side is the name attribute
+            // of an input field. Validation rules are defined
+            // on the right side
+            // image: "required",
+            "checkbox[]": {
+          /*  required: true,
+            minlength: 1,
+            maxlength:4*/
+            customvalidation:true
+          },
+          radio: {radiovalidation:true},
+            name: { required: true, nonNumeric: true },
+            image: { required: true, extension: "jpg|jpeg|gif" },
+            address: "required",
+            email: {
+              required: true,
+              // Specify that email should be validated
+              // by the built-in "email" rule
+              email: true,
+            },
+            pwd: {
+              required: true,
+              passwordval: true
+            },
+          },
+          // Specify validation error messages
+          messages: {
+            name: {
+              required: "Please Enter A Name",
+              nonNumeric: "PLease enter non numeric",
+            },
+            pwd: {
+              required: "Please provide a password",
+              passwordval: "password should contain at least one (capital,small)letters,numeric,special character with length of eight.",
+            },
+            email: "Please enter a valid email address",
+            address: "Please enter address",
+            image: {
+              required: "Image is required",
+              extension:
+                "image/jpg,image/jpeg,image/gif this file format only support",
+            },
+            "checkbox[]":{
+              customvalidation:"",
+            },
+           
+          radio: {radiovalidation:""}
+          },
+          // Make sure the form is submitted to the destination defined
+          // in the "action" attribute of the form when valid
+          submitHandler: function (form) {
+            alert("ok");
+            form.submit();
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
